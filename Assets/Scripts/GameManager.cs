@@ -73,9 +73,8 @@ public class GameManager : MonoBehaviour
         {
             timer += Time.deltaTime * gameTimeMultiplier;
 
-            float delay = notesBaseSpeed * gameTimeMultiplier;
-            Debug.Log("Delay: " + delay);
-            if(currentNoteIndex < currentLevel.notes.Length && timer >= currentLevel.notes[currentNoteIndex].time - delay)
+            float delay = notesBaseSpeed * earlyNoteSpawnTime / gameTimeMultiplier;
+            if (currentNoteIndex < currentLevel.notes.Length && timer >= currentLevel.notes[currentNoteIndex].time - earlyNoteSpawnTime)
             {
                 NoteObject newNote = Instantiate(currentLevel.notes[currentNoteIndex].notePrefab, spawnPoint.position, Quaternion.identity);
                 newNote.time = currentLevel.notes[currentNoteIndex].time;

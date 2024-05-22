@@ -27,7 +27,6 @@ public class NoteObject : MonoBehaviour
 
         if (gameManager.timer > time)
         {
-            Debug.Log("on " + this.name);
            renderer.material.color = Color.red;
         }
 
