@@ -10,20 +10,23 @@ public class UIActionElement : MonoBehaviour
 
     private Image image;
 
+    private Color color;
+
     private void Awake()
     {
         image = GetComponent<Image>();
+        color = image.color;
     }
 
     public void Activate()
     {
-        image.color = Color.green;
+        image.color = Color.white;
 
         Invoke("Deactivate", animationDuration);
     }
 
     public void Deactivate()
     {
-        image.color = Color.white;
+        image.color = color;
     }
 }

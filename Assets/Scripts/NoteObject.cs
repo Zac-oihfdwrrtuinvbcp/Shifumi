@@ -15,6 +15,21 @@ public class NoteObject : MonoBehaviour
     {
         gameManager = GameManager.Instance;
         Material newMaterial = new Material(Shader.Find("Standard"));
+
+        switch (action)
+        {
+            case "Rock":
+                newMaterial.color = Color.magenta;
+                break;
+            case "Paper":
+                newMaterial.color = Color.green;
+                break;
+            case "Scissors":
+                newMaterial.color = Color.blue;
+                break;
+            default:
+                break;
+        }
  
         renderer.material = newMaterial ;
 
@@ -32,7 +47,17 @@ public class NoteObject : MonoBehaviour
 
         if (Vector3.Distance(transform.position, gameManager.endPoint.position) < 0.1f)
         {
+            gameManager.instanciedNotes.Remove(this);
             Destroy(gameObject);
+        }
+    }
+
+    public void Hit(string playerAction)
+    {
+        if (playerAction == action)
+        {
+            Destroy(gameObject);
+            gameManager.AddScore(1);
         }
     }
 }

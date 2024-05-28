@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
 {
@@ -25,6 +26,8 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    [SerializeField]
+    private float noteHitWindow = 0.2f;
 
     [SerializeField]
     public float gameTimeMultiplier = 1;
@@ -44,11 +47,18 @@ public class GameManager : MonoBehaviour
     [SerializeField]
     public Transform hitPoint;
 
+    [SerializeField]
+    private Text scoreText;
+
     public float timer = 0;
 
     public float notesBaseSpeed;
 
     private int currentNoteIndex = 0;
+
+    public List<NoteObject> instanciedNotes = new List<NoteObject>();
+
+    public int score = 0;
 
     private void Awake()
     {
@@ -80,6 +90,7 @@ public class GameManager : MonoBehaviour
                 newNote.time = currentLevel.notes[currentNoteIndex].time;
                 newNote.action = currentLevel.notes[currentNoteIndex].action;
 
+                instanciedNotes.Add(newNote);
                 currentNoteIndex++;
             }
         }
@@ -89,8 +100,23 @@ public class GameManager : MonoBehaviour
     {
         if (currentLevel != null)
         {
-            //currentLevel.ExecutePlayerAction(action);
+            int index = 0;
+            foreach (NoteObject note in instanciedNotes)
+            {
+                if (Mathf.Abs(note.time - timer) < noteHitWindow )
+                {
+                    instanciedNotes[index].Hit(action);
+                    break;
+                }
+                index++;
+            }
         }
+    }
+
+    public void AddScore(int score)
+    {
+        this.score += score;
+        scoreText.text = "Score: " + this.score;
     }
 
 

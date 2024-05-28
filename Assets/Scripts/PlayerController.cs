@@ -13,6 +13,7 @@ public class PlayerController : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Q))
         {
             HandleAction("Rock");
+            Debug.Log("pressed");
         }
         else if (Input.GetKeyDown(KeyCode.W))
         {
