@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -48,7 +49,10 @@ public class GameManager : MonoBehaviour
     public Transform hitPoint;
 
     [SerializeField]
-    private Text scoreText;
+    private TMP_Text scoreText;
+
+    [SerializeField]
+    private TMP_Text comboText;
 
     public float timer = 0;
 
@@ -59,6 +63,8 @@ public class GameManager : MonoBehaviour
     public List<NoteObject> instanciedNotes = new List<NoteObject>();
 
     public int score = 0;
+
+    public int combo = 0;
 
     private void Awake()
     {
@@ -116,7 +122,26 @@ public class GameManager : MonoBehaviour
     public void AddScore(int score)
     {
         this.score += score;
-        scoreText.text = "Score: " + this.score;
+    }
+
+    public void HitNote()
+    {
+        combo++;
+        Debug.Log("Hit Note! Combo: " + combo);
+        AddScore(100 * combo);
+        UpdateUI();
+    }
+
+    public void MissNote()
+    {
+        combo = 0;
+        UpdateUI();
+    }
+
+    public void UpdateUI()
+    {
+        scoreText.text = "Score: " + score;
+        comboText.text = "Combo: " + combo;
     }
 
 

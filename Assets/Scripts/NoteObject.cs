@@ -11,6 +11,7 @@ public class NoteObject : MonoBehaviour
 
     private GameManager gameManager;
 
+    bool isPlayed = true;
     void Start()
     {
         gameManager = GameManager.Instance;
@@ -40,9 +41,15 @@ public class NoteObject : MonoBehaviour
         float step = gameManager.notesBaseSpeed * gameManager.gameTimeMultiplier * Time.deltaTime;
         transform.position = Vector3.MoveTowards(transform.position, gameManager.endPoint.position, step);   
 
-        if (gameManager.timer > time)
+        // if (gameManager.timer > time)
+        // {
+        //    renderer.material.color = Color.red;
+        // }
+
+        if (Vector3.Distance(transform.position, gameManager.hitPoint.position) > 0.1f && Vector3.Distance(transform.position, gameManager.spawnPoint.position) > Vector3.Distance(gameManager.spawnPoint.position, gameManager.hitPoint.position))
         {
-           renderer.material.color = Color.red;
+            renderer.material.color = Color.red;
+            Miss();
         }
 
         if (Vector3.Distance(transform.position, gameManager.endPoint.position) < 0.1f)
@@ -56,8 +63,15 @@ public class NoteObject : MonoBehaviour
     {
         if (playerAction == action)
         {
+            gameManager.HitNote();
             Destroy(gameObject);
-            gameManager.AddScore(1);
         }
+    }
+
+    private void Miss()
+    {
+        bool isPlayed = false;
+        if(isPlayed)
+            gameManager.MissNote();
     }
 }
